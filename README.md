@@ -6,7 +6,7 @@
 #### 环境初始化
 1. ```cp .env.example .env```
 2. ```npm install```
-3. ```npm run watch```
+3. 运行 ```npm run watch``` 或 ```npm run dev```
 
 #### 开发者工具使用
 

@@ -2,3 +2,4 @@
 /dist
 /.wepycache
 /.idea
+/.env

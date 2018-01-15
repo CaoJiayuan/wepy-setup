@@ -4,26 +4,36 @@
 <script>
   import wepy from 'wepy'
   import Promise from 'promise-polyfill'
+  import {API_URL} from './common/env'
 
   export default class extends wepy.app {
-    constructor () {
-      super()
-      this.use('promisify')
+    constructor() {
+      super();
+      this.use('promisify');
     }
 
     config = {
-      pages: [
+      pages : [
         'pages/index'
       ],
       window: {
-        backgroundTextStyle: 'light',
+        backgroundTextStyle         : 'light',
         navigationBarBackgroundColor: '#fff',
-        navigationBarTitleText: 'WeChat',
-        navigationBarTextStyle: 'black'
+        navigationBarTitleText      : 'WeChat',
+        navigationBarTextStyle      : 'black'
       }
-    }
+    };
 
-    onLaunch () {
+    $interceptors = {
+      request: {
+        config(config) {
+          config.url = API_URL + config.url;
+          return config;
+        }
+      }
+    };
+
+    onLaunch() {
       console.log('on launch')
     }
   }

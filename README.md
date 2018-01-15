@@ -4,9 +4,10 @@
 ### [微信小程序组件化开发框架wepy开发资源汇总](https://github.com/aben1188/awesome-wepy)
 
 #### 环境初始化
-1. ```cp .env.example .env```
-2. ```npm install```
-3. 运行 ```npm run watch``` 或 ```npm run dev```
+1. ```npm install```
+2. ```cp .env.example .env```
+3. 修改.env中的环境变量
+4. 运行 ```npm run watch``` 或 ```npm run dev```
 
 #### 开发者工具使用
 

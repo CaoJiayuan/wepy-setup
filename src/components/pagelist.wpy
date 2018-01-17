@@ -1,0 +1,24 @@
+<template>
+
+
+</template>
+
+<script>
+  import BaseComponent from './base';
+
+  export default class PageList extends BaseComponent {
+    props = {
+      apiUrl: {
+        type   : String,
+        default: ''
+      }
+    };
+
+
+  }
+</script>
+
+<style>
+
+
+</style>

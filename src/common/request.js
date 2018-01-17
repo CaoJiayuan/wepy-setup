@@ -11,27 +11,24 @@ const defaultOptions = {
 };
 
 request.request = (url, method, option) => {
-  return new Promise((resolve, reject) => {
+  let options = Object.assign(defaultOptions, option);
 
-    let options = Object.assign(defaultOptions, option);
-
-    wepy.request({
-      url         : url,
-      method      : method.toUpperCase(),
-      data        : options.data,
-      header      : options.header,
-      responseType: options.responseType,
-      dataType    : options.dataType
-    }).then(res => resolve(res))
-      .catch(error => reject(error))
-  })
+  return wepy.request({
+    url         : url,
+    method      : method.toUpperCase(),
+    data        : options.data,
+    header      : options.header,
+    responseType: options.responseType,
+    dataType    : options.dataType
+  });
 };
+
 ['get', 'post', 'put', 'delete', 'options', 'head', 'trace', 'connect'].forEach(method => {
   request[method] = (url, data, option) => {
     option = option || {};
     data = data || {};
     option.data = data;
-    return request.request(url, method, option)
+    return request.request(url, method, option);
   }
 });
 

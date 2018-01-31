@@ -1,15 +1,128 @@
-let init = {
-  foo: 1
-}
-const reducer = function (state = init, action) {
+let stores = {};
+let states = undefined;
+let getters = undefined;
+let actions = undefined;
 
-  if (action.type === 'FOO') {
-    state.foo++
+function createStore(modules) {
+  stores = modules;
+  let initState = getStates();
+  getActions();
+
+  return function (state = initState, action) {
+    let type = action.type;
+    let payload = action.payload;
+    let act = objectGet(actions, type);
+    if (typeof act === 'function') {
+      let partials = type.split('.');
+      let s = state;
+      if (partials.length > 1) {
+        s = state[partials[0]];
+      }
+      if (payload.length > 1) {
+        act.apply(s, [s, ...payload])
+      } else {
+        act.apply(s, [s, payload])
+      }
+    }
+
+    return state;
+  }
+}
+
+function getModules() {
+  return stores;
+}
+
+function getStates() {
+  if (states !== undefined) {
+    return states;
   }
 
-  console.log(state, action)
-  return state;
+  states = {};
+  for (let module in stores) {
+    states[module] = stores[module].state
+  }
+
+  return states;
+}
+
+function getGetters() {
+  if (getters !== undefined) {
+    return getters;
+  }
+
+  getters = {};
+  for (let module in stores) {
+    getters[module] = stores[module].getters
+  }
+
+  return getters;
+}
+
+function getActions() {
+  if (actions !== undefined) {
+    return actions;
+  }
+
+  actions = {};
+  for (let module in stores) {
+    actions[module] = stores[module].actions
+  }
+
+  return actions;
+}
+
+function mapGetters(find) {
+  let g = getGetters();
+
+  for (let key in find) {
+    let get = find[key];
+    let fn = objectGet(g, get);
+    find[key] = function (state) {
+      let partials = get.split('.');
+
+      let s = state;
+      if (partials.length > 1) {
+        s = state[partials[0]];
+      }
+      return fn(s)
+    }
+  }
+
+  return find;
 }
 
 
-export default reducer
+function objectGet(object, key, $default) {
+  let clone = simpleClone(object);
+  if (object.hasOwnProperty(key)) {
+    return object[key];
+  }
+
+  let partials = key.split('.');
+  let length = partials.length;
+  for (let i = 0; i < length; i++) {
+    clone = clone[partials[i]];
+    if (clone === undefined) {
+      return $default
+    }
+  }
+
+  return clone;
+}
+
+function simpleClone(state) {
+  let copy = (this instanceof Array) ? [] : {};
+  for (let attr in state) {
+    if (!state.hasOwnProperty(attr)) continue;
+    copy[attr] = state[attr];
+  }
+  return copy;
+};
+
+
+module.exports = {
+  createStore,
+  mapGetters,
+  getModules
+};

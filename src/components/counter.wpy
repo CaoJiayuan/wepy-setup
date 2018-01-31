@@ -1,0 +1,20 @@
+<template>
+  <view>
+    Num: {{ num }}
+  </view>
+</template>
+
+<script>
+  import {connect} from 'wepy-redux'
+  import BaseComponent from "./base";
+  import {mapGetters} from "../store";
+
+  let getters = mapGetters({
+    num : 'counter.num'
+  });
+  @connect(getters)
+
+  export default class Counter extends BaseComponent {
+
+  }
+</script>

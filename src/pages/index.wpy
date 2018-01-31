@@ -3,27 +3,33 @@
 <template>
   <view class="container">
     Hello world
-    <button @tap="addFoo">Foo{{foo}}</button>
+    <counter></counter>
+    <button @tap="addNum(1)">Add</button>
+    <view>{{nu}}</view>
   </view>
 </template>
 
 <script>
   import BasePage from './base';
   import {connect} from 'wepy-redux'
-  @connect({
-    foo(state) {
-      return state.foo
-    }
-  }, {
-    addFoo: 'FOO',
+  import Counter from '../components/counter';
+  import {getModules,mapGetters} from '../store'
+  @connect(mapGetters({
+    nu : 'counter.num'
+  }), {
+    addNum: 'counter.add',
   })
   export default class Index extends BasePage {
     config = {
       navigationBarTitleText: 'test'
     };
 
+    components = {
+      counter : Counter
+    };
+
     onLoad() {
-      this.http.get('/api/test').then(re => console.log(re)).catch(err => console.log(err))
+
     }
   }
 </script>

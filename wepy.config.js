@@ -20,6 +20,7 @@ module.exports = {
       'plugins'  : [
         'babel-plugin-transform-class-properties',
         'transform-export-extensions',
+        'transform-decorators-legacy',
         'syntax-export-extensions'
       ]
     }

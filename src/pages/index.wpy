@@ -3,12 +3,20 @@
 <template>
   <view class="container">
     Hello world
+    <button @tap="addFoo">Foo{{foo}}</button>
   </view>
 </template>
 
 <script>
   import BasePage from './base';
-
+  import {connect} from 'wepy-redux'
+  @connect({
+    foo(state) {
+      return state.foo
+    }
+  }, {
+    addFoo: 'FOO',
+  })
   export default class Index extends BasePage {
     config = {
       navigationBarTitleText: 'test'

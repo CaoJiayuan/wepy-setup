@@ -5,7 +5,11 @@
   import wepy from 'wepy'
   import Promise from 'promise-polyfill'
   import {API_URL} from './common/env'
-
+  import { createStore } from 'redux'
+  import { setStore } from 'wepy-redux'
+  import reducer from './store';
+  let store = createStore(reducer);
+  setStore(store);
   export default class extends wepy.app {
 
     constructor() {

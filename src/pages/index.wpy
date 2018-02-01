@@ -2,7 +2,7 @@
 </style>
 <template>
   <view class="container">
-    Hello world
+    Redux counter
     <counter></counter>
     <button @tap="addNum">Add</button>
      GET: {{num }}

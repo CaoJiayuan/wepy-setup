@@ -4,31 +4,38 @@
   <view class="container">
     Hello world
     <counter></counter>
-    <button @tap="addNum(1)">Add</button>
-    <view>{{nu}}</view>
+    <button @tap="addNum">Add</button>
   </view>
 </template>
 
 <script>
-  import BasePage from './base';
-  import {connect} from 'wepy-redux'
-  import Counter from '../components/counter';
-  import {getModules,mapGetters} from '../store'
-  @connect(mapGetters({
-    nu : 'counter.num'
-  }), {
-    addNum: 'counter.add',
-  })
+  import BasePage from './base'
+  import { connect } from 'wepy-redux'
+  import Counter from '../components/counter'
+  import { mapActions } from '../store'
+
+
   export default class Index extends BasePage {
+
     config = {
       navigationBarTitleText: 'test'
-    };
+    }
+
+    methods = {
+      ...mapActions({
+        addNum: 'counter.add',
+      })
+    }
+
+    computed = {
+
+    }
 
     components = {
-      counter : Counter
-    };
+      counter: Counter
+    }
 
-    onLoad() {
+    onLoad () {
 
     }
   }

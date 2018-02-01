@@ -21,6 +21,7 @@ module.exports = {
         'babel-plugin-transform-class-properties',
         'transform-export-extensions',
         'transform-decorators-legacy',
+        'transform-object-rest-spread',
         'syntax-export-extensions'
       ]
     }

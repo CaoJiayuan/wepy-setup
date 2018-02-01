@@ -1,9 +1,16 @@
+import { getStore } from 'wepy-redux'
+
 let stores = {};
 let states = undefined;
 let getters = undefined;
 let actions = undefined;
 
-function createStore(modules) {
+/***
+ *
+ * @param {Object} modules
+ * @returns {Function}
+ */
+function createReducer(modules) {
   stores = modules;
   let initState = getStates();
   getActions();
@@ -59,6 +66,7 @@ function getGetters() {
   return getters;
 }
 
+
 function getActions() {
   if (actions !== undefined) {
     return actions;
@@ -72,7 +80,7 @@ function getActions() {
   return actions;
 }
 
-function mapGetters(find) {
+function mapStates(find) {
   let g = getGetters();
 
   for (let key in find) {
@@ -83,7 +91,8 @@ function mapGetters(find) {
 
       let s = state;
       if (partials.length > 1) {
-        s = state[partials[0]];
+        let namespace = partials[0]
+        s = state[namespace];
       }
       return fn(s)
     }
@@ -92,6 +101,45 @@ function mapGetters(find) {
   return find;
 }
 
+function mapActions (find) {
+  let store = getStore();
+
+  for (let key in find) {
+    let get = find[key];
+    find[key] = function (...args) {
+
+      return store.dispatch({
+        type : get,
+        payload : args
+      })
+    }
+  }
+
+  return find;
+}
+
+function mapGetters(find) {
+  let g = getGetters();
+  let store = getStore();
+  let state = store.getState()
+
+  for (let key in find) {
+    let get = find[key];
+    let fn = objectGet(g, get);
+    find[key] = function () {
+      let partials = get.split('.');
+      let s = state;
+      if (partials.length > 1) {
+        let namespace = partials[0]
+        s = state[namespace];
+      }
+
+      return fn(s)
+    }
+  }
+
+  return find;
+}
 
 function objectGet(object, key, $default) {
   let clone = simpleClone(object);
@@ -122,7 +170,9 @@ function simpleClone(state) {
 
 
 module.exports = {
-  createStore,
+  createReducer,
   mapGetters,
+  mapActions,
+  mapStates,
   getModules
 };

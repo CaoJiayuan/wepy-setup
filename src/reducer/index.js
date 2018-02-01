@@ -1,8 +1,8 @@
-import {createStore} from '../store';
+import {createReducer} from '../store';
 import user from './modules/user';
 import counter from './modules/counter';
 
-const reducer = createStore({
+const reducer = createReducer({
   user,
   counter,
 });

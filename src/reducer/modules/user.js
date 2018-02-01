@@ -1,5 +1,7 @@
 const state = {
-  user : {}
+  user : {
+    id : 123
+  }
 };
 
 
@@ -9,7 +11,9 @@ const getters = {
 
 
 const actions = {
-
+  load(state, user) {
+    state.user = user;
+  }
 };
 
 

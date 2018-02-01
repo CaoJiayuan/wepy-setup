@@ -8,7 +8,6 @@
   import { createStore } from 'redux'
   import { setStore } from 'wepy-redux'
   import reducer from './reducer';
-  import {getModules} from './store';
   let store = createStore(reducer);
   setStore(store);
   export default class extends wepy.app {

@@ -8,8 +8,8 @@ const getters = {
 };
 
 const actions = {
-  add(state, e) {
-    this.num ++
+  add(state) {
+    state.num ++
   }
 };
 

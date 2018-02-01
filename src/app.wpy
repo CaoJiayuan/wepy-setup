@@ -8,6 +8,7 @@
   import { createStore } from 'redux'
   import { setStore } from 'wepy-redux'
   import reducer from './reducer';
+  import request from './common/request'; // 使用包装后的request
   let store = createStore(reducer);
   setStore(store);
   export default class extends wepy.app {
@@ -28,17 +29,12 @@
         navigationBarTextStyle      : 'black'
       }
     };
-
-    $interceptors = {
-      request: {
-        config(config) {
-          config.url = API_URL + config.url;
-          return config;
-        }
-      }
-    };
-
     onLaunch() {
+      request.interceptors.config = config => new Promise(resolve => { // config拦截器可返回Promise
+        config.url = API_URL + config.url;
+
+        resolve(config)
+      })
     }
   }
 </script>

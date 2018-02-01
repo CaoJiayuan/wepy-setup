@@ -39,7 +39,11 @@
     }
 
     onLoad () {
-
+      this.http.get('/test').then(re => {
+        console.log(re)
+      }).catch(error => {
+        console.log(error)
+      })
     }
   }
 </script>

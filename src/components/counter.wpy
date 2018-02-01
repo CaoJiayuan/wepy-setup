@@ -1,7 +1,6 @@
 <template>
   <view>
     Num: {{ num }}
-    <!--Get : {{ nu }}-->
   </view>
 </template>
 
@@ -10,14 +9,11 @@
   import BaseComponent from "./base";
   import {mapStates, mapGetters} from "../store";
 
-  @connect({
-    ...mapStates({
-      num : 'counter.num'
-    })
-  })
   export default class Counter extends BaseComponent {
     computed = {
-
+      ...mapGetters({
+        num : 'counter.num'
+      })
     }
 
     onLoad() {

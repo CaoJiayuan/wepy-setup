@@ -122,6 +122,7 @@ function mapGetters(find) {
   let g = getGetters();
   let store = getStore();
   let state = store.getState()
+  let subscribed = false
 
   for (let key in find) {
     let get = find[key];
@@ -132,6 +133,15 @@ function mapGetters(find) {
       if (partials.length > 1) {
         let namespace = partials[0]
         s = state[namespace];
+      }
+      let _this = this;
+      if (!subscribed) {
+        store.subscribe(() => {
+          if (_this[key] !== objectGet(states, get)) {
+            _this.$apply()
+          }
+        })
+        subscribed = true;
       }
 
       return fn(s)

@@ -5,6 +5,7 @@
     Hello world
     <counter></counter>
     <button @tap="addNum">Add</button>
+     GET: {{num }}
   </view>
 </template>
 
@@ -12,7 +13,7 @@
   import BasePage from './base'
   import { connect } from 'wepy-redux'
   import Counter from '../components/counter'
-  import { mapActions } from '../store'
+  import { mapActions, mapGetters } from '../store'
 
 
   export default class Index extends BasePage {
@@ -28,7 +29,9 @@
     }
 
     computed = {
-
+      ...mapGetters({
+        num : 'counter.num'
+      })
     }
 
     components = {
